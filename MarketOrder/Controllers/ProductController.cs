@@ -21,7 +21,7 @@ namespace MarketOrder.Controllers
         public ActionResult List()
         {
             var items = this.productService.Get();
-            return View(new ProductModel() { Products = items });
+            return Json(new { products = items }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace MarketOrder.Controllers
         public ActionResult Item(int id)
         {
             var item = this.productService.Get(id);
-            return Json(new { data = item }, JsonRequestBehavior.AllowGet);
+            return Json(new { product = item }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

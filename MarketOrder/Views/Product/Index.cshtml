@@ -7,13 +7,62 @@
 }
 
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.5.1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.5.1.js")"></script> <!--TODO: Bundle-->
     <script type="text/javascript">
 
         function AppViewModel() {
             var self = this;
 
-            //TODO: implement here
+            //self.Products = ko.observableArray([]);
+
+            //self.selectedProduct = ko.observable();
+            //self.availableProducts = ko.observableArray([]);
+
+            self.availableProducts = ko.observableArray([]);
+            /*self.availableProducts = [
+                { Id: 0, Name: "Car Organizer", Price: 10.99 },
+                { Id: 1, Name: "LEGO Speed Champions", Price: 7.99 },
+                { Id: 2, Name: "Panasonic HomeHawk Smart Home Security", Price: 99.99 }
+            ];*/
+
+            /*self.ProductVM = function (model) {
+                var inner = this;
+
+                inner.Id = model.Id;
+                inner.Name = model.Name;
+                inner.Price = model.Price;
+
+                //ko.mapping.fromJS(model, {}, inner);
+
+                //inner.Id = ko.observable(model.Id);
+                //inner.Name = ko.observable(model.Name);
+                //inner.Price = ko.observable(model.Price);
+            };*/
+
+            //TODO: ajax get model
+            $.get("/Product/List", function (response) {
+                self.availableProducts.push.apply(self.availableProducts, response.products);
+            //    //self.availableProducts = ko.observableArray(response.products);
+            //    //self.Products(new self.ProductVM(response.products));
+            //    //self.products = ko.observableArray(data.data);
+            //    //alert("Load was performed. Data:" + JSON.stringify(data));
+            });
+
+            /*
+             * //TODO: map model
+             * ko.mapping.fromJS(model, mapOptions, inner);
+             */
+
+            //self.price = ko.observable("9.99");
+            //self.discount = ko.observable("0.00");
+            //self.total = ko.computed(function () {
+            //    var total = +self.price() - +self.discount();
+            //    return total.toFixed(2);
+            //});
+
+            /*self.addSeat = function () {
+                alert('Add');
+            }*/
         };
 
         $(document).ready(function () {
@@ -71,6 +120,23 @@
     </script>
 }
 
+<tbody>
+    <tr>
+        <td>
+            <select data-bind="options: $root.availableProducts, optionsText: 'Name'"></select>
+        </td>
+        <!--<td data-bind="text: price"></td>
+                <td><input type="number" value="" min="0.00" data-bind="value: discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></td>
+                <td data-bind="text: total"></td>-->
+    </tr>
+</tbody>
+<!--<button data-bind="click: addSeat" class="btn btn-primary">Add</button>-->
+
+
+
+
+
+
 @*
     <div class="jumbotron">
         <select onchange="getProduct(this);">
@@ -113,16 +179,23 @@
     }
 *@
 
-<form name="productAdd" method="post" action="/Product/Add">
-    <select onchange="getProduct(this);" name="product">
-        <option style="display:none"></option>
-        @foreach (var item in @Model.Products)
-        {
-            <option value="@item.Id">@item.Name</option>
-        }
-    </select>
-    <input type="number" value="0.00" min="0.00" name="price" readonly="readonly">
-    <input type="number" value="" min="0.00" name="discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
-    <input type="number" value="" min="0.00" name="total" placeholder="Total" readonly="readonly">
-    <button type="submit" class="btn btn-primary">Add</button>
-</form>
+@*
+    <input type="text" class="form-control" id="td_location_code_name"
+           data-bind="value: PickupInfo().LocationCodeName" readonly>
+*@
+
+@*
+    <form name="productAdd" method="post" action="/Product/Add">
+        <select onchange="getProduct(this);" name="product">
+            <option style="display:none"></option>
+            @foreach (var item in @Model.Products)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+        <input type="number" value="0.00" min="0.00" name="price" readonly="readonly">
+        <input type="number" value="" min="0.00" name="discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
+        <input type="number" value="" min="0.00" name="total" placeholder="Total" readonly="readonly">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+*@
