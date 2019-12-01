@@ -14,57 +14,27 @@
         function AppViewModel() {
             var self = this;
 
-            //TODO: Move to VM
-            self.Products = ko.observableArray();
-
             self.ProductVM = function (model) {
                 var inner = this;
 
-                //inner.Products = ko.observableArray();
-                
-                /*if (model) {
-                    inner.Products.push.apply(inner.Products, model.products);
-                }*/
-
                 inner.item = ko.observable(model);
-
-                //inner.name = ko.observable();
                 inner.price = ko.observable();
-                inner.discount = ko.observable();
+                inner.discount = ko.observable(0);
                 inner.total = ko.computed(function () {
                     var total = 0.0;
                     if (typeof (inner.item) != 'undefined' && inner.item() !== undefined) {
+
+                        var discount = +inner.discount();
+                        if (isNaN(discount)) {
+                            discount = 0.0;
+                        }
+
                         inner.price(inner.item().Price);
-                        total = +inner.price() - +inner.discount();
+                        total = +inner.price() - discount;
                     }
                     return total.toFixed(2);
                 });
             };
-
-            /*
-            self.SelectedItem = ko.observable();
-
-            self.Price = ko.observable();
-            self.Discount = ko.observable();
-
-            self.Total = ko.computed(function () {
-                if (typeof (self.SelectedItem) != 'undefined' && self.SelectedItem() !== undefined) {
-                    var discount = +self.Discount();
-                    if (isNaN(discount)) {
-                        discount = 0.0;
-                    }
-                    var total = +self.Price() - discount;
-                    return total.toFixed(2);
-                }
-                return 0.0;
-            });
-
-            self.SelectedItem.subscribe(function (data) {
-                self.Price(data.Price);
-            });*/
-
-            //TODO: Move to VM
-            self.Orders = ko.observableArray();
 
             self.OrderVM = function (name, price) {
                 var inner = this;
@@ -78,29 +48,50 @@
                 });
             };
 
+            self.ShipmentVM = function (orders) {
+                var inner = this;
+
+                inner.items = ko.observableArray([]);
+                inner.total = ko.computed(function () {
+                    var total = 0;
+                    for (var i = 0; i < inner.items().length; i++) {
+                        total += +inner.items()[i].total();
+                    }
+                    return total;
+                });
+
+                inner.items.push.apply(inner.items, orders);
+            };
+
             self.vm = {
                 Product: ko.observable({}),
+                Products: ko.observableArray([]),
+                Orders: ko.observableArray([]),
+                Shipments: ko.observableArray([])
             };
 
             //TODO: Stay here
             self.getProductsUrl = '/Product/List';
             self.init = function () {
                 $.get(self.getProductsUrl, function (response) {
-                    self.Products.push.apply(self.Products, response.products);
-
-                    self.vm.Product(new self.ProductVM(self.Products[0]));
+                    self.vm.Products.push.apply(self.vm.Products, response.products);
+                    self.vm.Product(new self.ProductVM(self.vm.Products[0]));
                     //Shipment
                 });
             };
 
             self.addOrder = function () {
-                self.Orders.push(new self.OrderVM(
+                self.vm.Orders.push(new self.OrderVM(
                     self.vm.Product().item().Name,
                     self.vm.Product().total()));
             }
 
             self.removeOrder = function (order) {
-                self.Orders.remove(order);
+                self.vm.Orders.remove(order);
+            }
+
+            self.createShipment = function () {
+                self.vm.Shipments.push(new self.ShipmentVM(self.vm.Orders()));
             }
         }
 
@@ -115,7 +106,7 @@
 }
 
 <h1>Making an order</h1>
-<select data-bind="options: $root.Products, optionsText: 'Name', value: $root.vm.Product().item, optionsCaption: 'Choose...'"></select>
+<select data-bind="options: $root.vm.Products, optionsText: 'Name', value: $root.vm.Product().item, optionsCaption: 'Choose...'"></select>
 <input type="text" data-bind="value: $root.vm.Product().price">
 <input type="number" value="" min="0.0" data-bind="value: $root.vm.Product().discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
 <input type="text" data-bind="value: $root.vm.Product().total">
@@ -124,26 +115,52 @@
 
 <br>
 <h1>New order</h1>
-<table>
+<table data-bind="visible: $root.vm.Orders().length > 0" style="margin: auto; width: 100%;">
     <thead>
-        <!--TODO: headers-->
+        <tr>
+            <th><strong>Index</strong></th>
+            <th><strong>Name</strong></th>
+            <th><strong>Price</strong></th>
+            <th><strong>Count</strong></th>
+            <th><strong>Total</strong></th>
+        </tr>
     </thead>
-    <tbody data-bind="foreach: $root.Orders">
+    <tbody data-bind="foreach: $root.vm.Orders">
         <tr>
             <td><div data-bind="text: $index"></div></td>
-            <td><input data-bind="value: name" /></td>
-            <td><input data-bind="value: price" /></td>
+            <td><div data-bind="text: name" /></td>
+            <td><div data-bind="text: price" /></td>
             <td><input type="number" value="" min="1" data-bind="value: count" placeholder="Count" step="1"></td>
-            <td><input data-bind="value: total" /></td>
+            <td><div data-bind="text: total" /></td>
             <td><a href="#" data-bind="click: $root.removeOrder">Remove</a></td>
         </tr>
     </tbody>
 </table>
 
+<button data-bind="click: createShipment" class="btn btn-primary">Create Order</button>
+
 <br>
 <h1>Orders approved for shipment</h1>
-<!--TODO: table-->
-<!--TODO: total-->
+<table style="margin: auto; width: 100%; border: 1px">
+    <thead>
+        <tr>
+            <th><strong>Order Number</strong></th>
+            <th><strong>Products</strong></th>
+            <th><strong>Price</strong></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: $root.vm.Shipments">
+        <tr>
+            <td><div data-bind="text: $index"></div></td>
+            <td>
+                <div data-bind="foreach: items">
+                    <div data-bind="text: name" />
+                </div>
+            </td>
+            <td><div data-bind="text: total" /></td>
+        </tr>
+    </tbody>
+</table>
 
 <br>
 <h1>Debug</h1>
