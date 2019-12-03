@@ -13,8 +13,7 @@ namespace MarketOrder.Controllers
         }
         public ActionResult Index()
         {
-            var items = this.productService.Get();
-            return View(new ProductModel() { Products = items });
+            return View(this.productService.Get());
         }
 
         [HttpGet]
