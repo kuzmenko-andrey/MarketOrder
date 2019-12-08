@@ -1,121 +1,21 @@
 ﻿@using MarketOrder.Models
-@*@model IEnumerable<ProductView>*@
 @model ProductModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-@section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/knockout-3.5.1.js")"></script> <!--TODO: Bundle-->
-
-    <script type="text/javascript">
-
-        function AppViewModel() {
-            var self = this;
-
-            self.ProductVM = function (model) {
-                var inner = this;
-
-                inner.item = ko.observable(model);
-                inner.price = ko.observable();
-                inner.discount = ko.observable(0);
-                inner.total = ko.computed(function () {
-                    var total = 0.0;
-                    if (typeof (inner.item) != 'undefined' && inner.item() !== undefined) {
-
-                        var discount = +inner.discount();
-                        if (isNaN(discount)) {
-                            discount = 0.0;
-                        }
-
-                        inner.price(inner.item().Price);
-                        total = +inner.price() - discount;
-                    }
-                    return total.toFixed(2);
-                });
-            };
-
-            self.OrderVM = function (name, price) {
-                var inner = this;
-
-                inner.name = ko.observable(name);
-                inner.price = ko.observable(price);
-                inner.count = ko.observable(1);
-                inner.total = ko.computed(function () {
-                    var total = +inner.price() * +inner.count();
-                    return total.toFixed(2);
-                });
-            };
-
-            self.ShipmentVM = function (orders) {
-                var inner = this;
-
-                inner.items = ko.observableArray([]);
-                inner.total = ko.computed(function () {
-                    var total = 0;
-                    for (var i = 0; i < inner.items().length; i++) {
-                        total += +inner.items()[i].total();
-                    }
-                    return total;
-                });
-
-                inner.items.push.apply(inner.items, orders);
-            };
-
-            self.vm = {
-                Product: ko.observable({}),
-                Products: ko.observableArray([]),
-                Orders: ko.observableArray([]),
-                Shipments: ko.observableArray([])
-            };
-
-            //TODO: Stay here
-            self.getProductsUrl = '/Product/List';
-            self.init = function () {
-                $.get(self.getProductsUrl, function (response) {
-                    self.vm.Products.push.apply(self.vm.Products, response.products);
-                    self.vm.Product(new self.ProductVM(self.vm.Products[0]));
-                    //Shipment
-                });
-            };
-
-            self.addOrder = function () {
-                self.vm.Orders.push(new self.OrderVM(
-                    self.vm.Product().item().Name,
-                    self.vm.Product().total()));
-            }
-
-            self.removeOrder = function (order) {
-                self.vm.Orders.remove(order);
-            }
-
-            self.createShipment = function () {
-                self.vm.Shipments.push(new self.ShipmentVM(self.vm.Orders()));
-            }
-        }
-
-        $(document).ready(function () {
-            var view = new AppViewModel();
-            view.init();
-
-            ko.applyBindings(view);
-        });
-
-    </script>
-}
-
 <h1>Making an order</h1>
-<select data-bind="options: $root.vm.Products, optionsText: 'Name', value: $root.vm.Product().item, optionsCaption: 'Choose...'"></select>
-<input type="text" data-bind="value: $root.vm.Product().price">
-<input type="number" value="" min="0.0" data-bind="value: $root.vm.Product().discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
-<input type="text" data-bind="value: $root.vm.Product().total">
+<select data-bind="options: $root.Products, optionsText: 'Name', value: $root.Product().item, optionsCaption: 'Choose...'"></select>
+<input type="text" data-bind="value: $root.Product().price">
+<input type="number" value="" min="0.0" data-bind="value: $root.Product().discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
+<input type="text" data-bind="value: $root.Product().total">
 
-<button data-bind="click: addOrder" class="btn btn-primary">Add</button>
+<button data-bind="click: AppViewModel.addOrder" class="btn btn-primary">Add</button>
 
 <br>
 <h1>New order</h1>
-<table data-bind="visible: $root.vm.Orders().length > 0" style="margin: auto; width: 100%;">
+<table data-bind="visible: $root.Orders().length > 0" style="margin: auto; width: 100%;">
     <thead>
         <tr>
             <th><strong>Index</strong></th>
@@ -125,23 +25,23 @@
             <th><strong>Total</strong></th>
         </tr>
     </thead>
-    <tbody data-bind="foreach: $root.vm.Orders">
+    <tbody data-bind="foreach: $root.Orders">
         <tr>
             <td><div data-bind="text: $index"></div></td>
             <td><div data-bind="text: name" /></td>
             <td><div data-bind="text: price" /></td>
             <td><input type="number" value="" min="1" data-bind="value: count" placeholder="Count" step="1"></td>
             <td><div data-bind="text: total" /></td>
-            <td><a href="#" data-bind="click: $root.removeOrder">Remove</a></td>
+            <td><a href="#" data-bind="click: AppViewModel.removeOrder">Remove</a></td>
         </tr>
     </tbody>
 </table>
 
-<button data-bind="click: createShipment" class="btn btn-primary">Create Order</button>
+<button data-bind="click: AppViewModel.createShipment" class="btn btn-primary">Create Order</button>
 
 <br>
 <h1>Orders approved for shipment</h1>
-<table style="margin: auto; width: 100%; border: 1px">
+<table style="margin: auto; width: 100%; border: 1px" data-bind="visible: $root.Shipments().length > 0">
     <thead>
         <tr>
             <th><strong>Order Number</strong></th>
@@ -149,7 +49,7 @@
             <th><strong>Price</strong></th>
         </tr>
     </thead>
-    <tbody data-bind="foreach: $root.vm.Shipments">
+    <tbody data-bind="foreach: $root.Shipments">
         <tr>
             <td><div data-bind="text: $index"></div></td>
             <td>
