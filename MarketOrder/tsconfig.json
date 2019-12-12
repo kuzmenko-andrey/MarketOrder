@@ -1,5 +1,5 @@
 {
-  "compileOnSave": true,
+    "compileOnSave": true,
     "compilerOptions": {
         "noImplicitAny": false,
         "noEmitOnError": true,
@@ -8,8 +8,11 @@
         "target": "es5",
         "outDir": "Scripts/js/"
     },
-  "exclude": [
-    "node_modules",
-    "wwwroot"
-  ]
+    "include": [
+        "./TypeScript/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "wwwroot"
+    ]
 }
