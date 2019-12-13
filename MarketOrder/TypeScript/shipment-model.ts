@@ -4,15 +4,18 @@ class ShipmentModel {
 
     constructor(orders: OrderModel[]) {
         this.Items = ko.observableArray();
-        this.Total = ko.computed(function () {
-            var total = 0;
-            for (var i = 0; i < this.Items().length; i++) {
-                total += +this.Items()[i].total();
+        this.Total = ko.computed({
+            owner: this,
+            read: function () {
+                var total = 0;
+                for (var i = 0; i < this.Items().length; i++) {
+                    total += +this.Items()[i].Total();
+                }
+                return total;
             }
-            return total;
         });
 
-        //inner.items.push.apply(inner.items, orders);
+        this.Items.push.apply(this.Items, orders);
     }
 
     public Items: KnockoutObservableArray<OrderModel>;

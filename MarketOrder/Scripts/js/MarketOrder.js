@@ -14,14 +14,14 @@ var MarketOrder = MarketOrder || {};
     self.init = function () {
         $.get(self.getProductsUrl, function (response) {
             self.vm.Products.push.apply(self.vm.Products, response.products);
-            self.vm.Product(new self.ProductVM(self.vm.Products[0]));
+            self.vm.Product(new ProductsModel(self.vm.Products()[0]));
         });
     };
 
     self.addOrder = function () {
-        self.vm.Orders.push(new self.OrderVM(
-            self.vm.Product().item().Name,
-            self.vm.Product().total()));
+        self.vm.Orders.push(new OrderModel(
+            self.vm.Product().Item().Name,
+            self.vm.Product().Total()));
     };
 
     self.removeOrder = function (order) {
@@ -29,6 +29,6 @@ var MarketOrder = MarketOrder || {};
     };
 
     self.createShipment = function () {
-        self.vm.Shipments.push(new self.ShipmentVM(self.vm.Orders()));
+        self.vm.Shipments.push(new ShipmentModel(self.vm.Orders()));
     };
 }).apply(MarketOrder);
