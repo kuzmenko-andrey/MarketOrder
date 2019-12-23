@@ -15,85 +15,72 @@
 }
 
 <div class="container">
+    <h1>Making an order</h1>
     <div class="row">
-        <div class="col-lg-3 col-sm-3">
+        <div class="col-12 col-md-8">
             <select data-bind="options: $root.Products, optionsText: 'Name', value: $root.Product().Item, optionsCaption: 'Choose...'"></select>
         </div>
-        <div class="col-lg-9 col-sm-9">
-            <div class="col-lg-6 col-sm-6">
-                <input type="text" data-bind="value: $root.Product().Price">
-            </div>
-
-            <div class="col-lg-6 col-sm-6">
-                <input type="number" value="" min="0.0" data-bind="value: $root.Product().Discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
-            </div>
-
+    </div>
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <input type="text" data-bind="value: $root.Product().Price">
+        </div>
+        <div class="col-6 col-md-4">
+            <input type="number" value="" min="0.0" data-bind="value: $root.Product().Discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
+        </div>
+        <div class="col-6 col-md-4">
+            <input type="text" data-bind="value: $root.Product().Total">
         </div>
     </div>
+    <button data-bind="click: MarketOrder.addOrder" class="btn btn-primary">Add</button>
 </div>
 
+<div class="container">
+    <h1>New order</h1>
+    <table class="table table-striped" data-bind="visible: $root.Orders().length > 0">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Count</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: $root.Orders">
+            <tr>
+                <th scope="row">$index</th>
+                <td><div data-bind="text: Name" /></td>
+                <td><div data-bind="text: Price" /></td>
+                <td><input type="number" value="" min="1" data-bind="value: Count" placeholder="Count" step="1"></td>
+                <td><div data-bind="text: Total" /></td>
+                <td><a href="#" data-bind="click: MarketOrder.removeOrder">Remove</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <button data-bind="click: MarketOrder.createShipment" class="btn btn-primary">Create Order</button>
+</div>
 
-<!--
-
-<h1>Making an order</h1>
-
-<select data-bind="options: $root.Products, optionsText: 'Name', value: $root.Product().Item, optionsCaption: 'Choose...'"></select>
-<input type="text" data-bind="value: $root.Product().Price">
-<input type="number" value="" min="0.0" data-bind="value: $root.Product().Discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
-<input type="text" data-bind="value: $root.Product().Total">
-
--->
-<!--
-
-<button data-bind="click: MarketOrder.addOrder" class="btn btn-primary">Add</button>
-
-<br>
-<h1>New order</h1>
-<table data-bind="visible: $root.Orders().length > 0" style="margin: auto; width: 100%;">
-    <thead>
-        <tr>
-            <th><strong>Index</strong></th>
-            <th><strong>Name</strong></th>
-            <th><strong>Price</strong></th>
-            <th><strong>Count</strong></th>
-            <th><strong>Total</strong></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: $root.Orders">
-        <tr>
-            <td><div data-bind="text: $index"></div></td>
-            <td><div data-bind="text: Name" /></td>
-            <td><div data-bind="text: Price" /></td>
-            <td><input type="number" value="" min="1" data-bind="value: Count" placeholder="Count" step="1"></td>
-            <td><div data-bind="text: Total" /></td>
-            <td><a href="#" data-bind="click: MarketOrder.removeOrder">Remove</a></td>
-        </tr>
-    </tbody>
-</table>
-
-<button data-bind="click: MarketOrder.createShipment" class="btn btn-primary">Create Order</button>
-
-<br>
-<h1>Orders approved for shipment</h1>
-<table style="margin: auto; width: 100%; border: 1px" data-bind="visible: $root.Shipments().length > 0">
-    <thead>
-        <tr>
-            <th><strong>Order Number</strong></th>
-            <th><strong>Products</strong></th>
-            <th><strong>Price</strong></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: $root.Shipments">
-        <tr>
-            <td><div data-bind="text: $index"></div></td>
-            <td>
-                <div data-bind="foreach: Items">
-                    <div data-bind="text: Name" />
-                </div>
-            </td>
-            <td><div data-bind="text: Total" /></td>
-        </tr>
-    </tbody>
-</table>
-
--->
+<div class="container">
+    <h1>Orders approved for shipment</h1>
+    <table class="table table-striped" data-bind="visible: $root.Shipments().length > 0">
+        <thead>
+            <tr>
+                <th><strong>Order Number</strong></th>
+                <th><strong>Products</strong></th>
+                <th><strong>Price</strong></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: $root.Shipments">
+            <tr>
+                <td><div data-bind="text: $index"></div></td>
+                <td>
+                    <div data-bind="foreach: Items">
+                        <div data-bind="text: Name" />
+                    </div>
+                </td>
+                <td><div data-bind="text: Total" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
