@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketOrder.Models", "Marke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketOrder.Business", "MarketOrder.Business\MarketOrder.Business.csproj", "{4A606374-6CB6-46DB-A252-CE4ACA000E46}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{68B52359-6E46-4E81-B0DA-33B512C5F443}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{4A606374-6CB6-46DB-A252-CE4ACA000E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A606374-6CB6-46DB-A252-CE4ACA000E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A606374-6CB6-46DB-A252-CE4ACA000E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B52359-6E46-4E81-B0DA-33B512C5F443}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

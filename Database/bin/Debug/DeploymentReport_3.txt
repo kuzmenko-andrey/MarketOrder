@@ -1,0 +1,19 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Products]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Table rebuild
+       [dbo].[Products] (Table)
+
+** Supporting actions
+     Create
+       [dbo].[Products].[Id_Products_Column] (Index)
+     Refresh
+       [dbo].[GetProducts] (Procedure)

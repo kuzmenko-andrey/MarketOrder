@@ -11,6 +11,7 @@ namespace MarketOrder.Controllers
         {
             this.productService = productService;
         }
+
         public ActionResult Index()
         {
             return View(this.productService.Get());

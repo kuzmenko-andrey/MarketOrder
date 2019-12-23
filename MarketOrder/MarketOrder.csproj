@@ -181,6 +181,10 @@
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.validation\jquery.validation.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="TypeScript\BaseViewModel.ts" />
+    <TypeScriptCompile Include="TypeScript\MarketOrder.ts" />
     <TypeScriptCompile Include="TypeScript\order-model.ts" />
     <TypeScriptCompile Include="TypeScript\product-model.ts" />
     <TypeScriptCompile Include="TypeScript\products-model.ts" />
