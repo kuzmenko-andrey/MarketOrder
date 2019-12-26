@@ -5,11 +5,12 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            MarketOrder.getProductsUrl = '@Url.Action("List", "Product")';
-            $.get(MarketOrder.getProductsUrl, function (responce) {
-                MarketOrder.init(responce);
+            var market = new MarketOrder();
+
+            $.get('@Url.Action("List", "Product")', function (responce) {
+                market.init(responce);
+                ko.applyBindings(market.vm());
             });
-            ko.applyBindings(MarketOrder.vm);
         });
     </script>
 }

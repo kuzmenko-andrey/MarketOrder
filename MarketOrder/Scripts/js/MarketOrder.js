@@ -1,42 +1,41 @@
-//import { BaseVM } from "./BaseViewModel";
-var MarketOrder;
-(function (MarketOrder) {
-    var vmm = /** @class */ (function () {
-        function vmm() {
-            this.Product = ko.observable();
-            this.Products = ko.observableArray();
-            this.Orders = ko.observableArray();
-            this.Shipments = ko.observableArray();
-        }
-        return vmm;
-    }());
-    MarketOrder.vmm = vmm;
-    /*function Get(url: string, model: any): JQueryXHR {
-        return $.get(url, model);
-    }*/
-    /*export function init() {
-        $.get(getProductsUrl, function (response) {
-            vm.Products.push.apply(vm.Products, response.products);
-            vm.Product(new ProductsModel(vm.Products()[0]));
-        });
-    };*/
-    function init(response) {
-        vm = new vmm();
-        vm.Products.push.apply(this.vm.Products, response.products);
-        vm.Product(new ProductsModel(this.vm.Products()[0]));
+"use strict";
+// ///<reference path="BaseViewModel.ts"/>
+// ///<reference path="order-model.ts"/>
+// ///<reference path="product-model.ts"/>
+// ///<reference path="products-model.ts"/>
+// ///<reference path="shipment-model.ts"/>
+//import { BasicViewModel } from "./BaseViewModel";
+//import { JQueryXHR } from "./jquery";
+Object.defineProperty(exports, "__esModule", { value: true });
+var MarketOrder = /** @class */ (function () {
+    function MarketOrder() {
+        this.viewmodel = new BasicViewModel();
     }
-    MarketOrder.init = init;
+    MarketOrder.prototype.vm = function () {
+        return this.viewmodel;
+    };
+    MarketOrder.prototype.init = function (response) {
+        this.viewmodel.Products.push.apply(this.viewmodel.Products, response.products);
+        this.viewmodel.Product(new ProductsModel(this.viewmodel.Products()[0]));
+    };
     ;
-    /*export function addOrder() {
-        vm.Orders.push(new OrderModel(
-            vm.Product().Item().Name,
-            vm.Product().Total()));
-    }*/
-    /*export function removeOrder(order: OrderModel) {
-        vm.Orders.remove(order);
-    }*/
-    /*export function createShipment() {
-        vm.Shipments.push(new ShipmentModel(vm.Orders()));
-    }*/
-})(MarketOrder || (MarketOrder = {}));
+    MarketOrder.prototype.addOrder = function () {
+        this.viewmodel.Orders.push(new OrderModel(this.viewmodel.Product().Item().Name, this.viewmodel.Product().Total()));
+    };
+    ;
+    MarketOrder.prototype.removeOrder = function (order) {
+        this.viewmodel.Orders.remove(order);
+    };
+    ;
+    MarketOrder.prototype.createShipment = function () {
+        this.viewmodel.Shipments.push(new ShipmentModel(this.viewmodel.Orders()));
+    };
+    ;
+    return MarketOrder;
+}());
+exports.MarketOrder = MarketOrder;
+//export declare var getProductsUrl: string;
+/*function Get(url: string, model: any): JQueryXHR {
+    return $.get(url, model);
+}*/
 //# sourceMappingURL=MarketOrder.js.map

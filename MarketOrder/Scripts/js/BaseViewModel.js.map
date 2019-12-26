@@ -1,1 +1,1 @@
-{"version":3,"file":"BaseViewModel.js","sourceRoot":"","sources":["../../TypeScript/BaseViewModel.ts"],"names":[],"mappings":""}
+{"version":3,"file":"BaseViewModel.js","sourceRoot":"","sources":["../../TypeScript/BaseViewModel.ts"],"names":[],"mappings":"AAAA;IACI;QACI,IAAI,CAAC,OAAO,GAAG,EAAE,CAAC,UAAU,EAAE,CAAC;QAC/B,IAAI,CAAC,QAAQ,GAAG,EAAE,CAAC,eAAe,EAAE,CAAC;QACrC,IAAI,CAAC,MAAM,GAAG,EAAE,CAAC,eAAe,EAAE,CAAC;QACnC,IAAI,CAAC,SAAS,GAAG,EAAE,CAAC,eAAe,EAAE,CAAC;IAC1C,CAAC;IAML,qBAAC;AAAD,CAAC,AAZD,IAYC"}

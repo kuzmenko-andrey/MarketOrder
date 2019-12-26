@@ -1,6 +1,6 @@
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\bin\Debug\Database.dacpac
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\bin\Debug\Database.dll
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\bin\Debug\Database.pdb
-C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.sqlprojAssemblyReference.cache
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.dll
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.pdb
+C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.sqlprojAssemblyReference.cache
