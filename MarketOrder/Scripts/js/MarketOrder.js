@@ -9,26 +9,26 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var MarketOrder = /** @class */ (function () {
     function MarketOrder() {
-        this.viewmodel = new BasicViewModel();
+        this.vm = new BasicViewModel();
     }
-    MarketOrder.prototype.vm = function () {
+    /*vm() {
         return this.viewmodel;
-    };
+    }*/
     MarketOrder.prototype.init = function (response) {
-        this.viewmodel.Products.push.apply(this.viewmodel.Products, response.products);
-        this.viewmodel.Product(new ProductsModel(this.viewmodel.Products()[0]));
+        this.vm.Products.push.apply(this.vm.Products, response.products);
+        this.vm.Product(new ProductsModel(this.vm.Products()[0]));
     };
     ;
     MarketOrder.prototype.addOrder = function () {
-        this.viewmodel.Orders.push(new OrderModel(this.viewmodel.Product().Item().Name, this.viewmodel.Product().Total()));
+        this.vm.Orders.push(new OrderModel(this.vm.Product().Item().Name, this.vm.Product().Total()));
     };
     ;
     MarketOrder.prototype.removeOrder = function (order) {
-        this.viewmodel.Orders.remove(order);
+        this.vm.Orders.remove(order);
     };
     ;
     MarketOrder.prototype.createShipment = function () {
-        this.viewmodel.Shipments.push(new ShipmentModel(this.viewmodel.Orders()));
+        this.vm.Shipments.push(new ShipmentModel(this.vm.Orders()));
     };
     ;
     return MarketOrder;

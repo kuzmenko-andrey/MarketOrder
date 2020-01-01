@@ -8,35 +8,34 @@
 
 export class MarketOrder {
     constructor() {
-        this.viewmodel = new BasicViewModel();
+        this.vm = new BasicViewModel();
     }
 
-    public viewmodel: BasicViewModel;
+    public vm: BasicViewModel;
 
-    vm() {
+    /*vm() {
         return this.viewmodel;
-    }
+    }*/
 
-    init(response: any) {
-        this.viewmodel.Products.push.apply(this.viewmodel.Products, response.products);
-        this.viewmodel.Product(new ProductsModel(this.viewmodel.Products()[0]));
+    public init(response: any) {
+        this.vm.Products.push.apply(this.vm.Products, response.products);
+        this.vm.Product(new ProductsModel(this.vm.Products()[0]));
     };
 
-    addOrder() {
-        this.viewmodel.Orders.push(new OrderModel(
-            this.viewmodel.Product().Item().Name,
-            this.viewmodel.Product().Total()));
+    public addOrder() {
+        this.vm.Orders.push(new OrderModel(
+            this.vm.Product().Item().Name,
+            this.vm.Product().Total()));
     };
 
-    removeOrder(order: OrderModel) {
-        this.viewmodel.Orders.remove(order);
+    public removeOrder(order: OrderModel) {
+        this.vm.Orders.remove(order);
     };
 
-    createShipment() {
-        this.viewmodel.Shipments.push(new ShipmentModel(this.viewmodel.Orders()));
+    public createShipment() {
+        this.vm.Shipments.push(new ShipmentModel(this.vm.Orders()));
     };
 }
-
 
     //export declare var getProductsUrl: string;
 
