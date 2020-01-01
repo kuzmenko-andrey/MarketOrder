@@ -11,8 +11,11 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - by Kuzmenko Andrew</p>
+        <div class="push"></div>
+        <footer class="page-footer navbar-fixed-bottom">
+            <div class="container-fluid text-center text-md-left">
+                <p>&copy; @DateTime.Now.Year - by Kuzmenko Andrew</p>
+            </div>
         </footer>
     </div>
 

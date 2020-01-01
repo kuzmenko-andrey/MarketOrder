@@ -34,6 +34,7 @@ export class MarketOrder {
 
     public createShipment() {
         this.vm.Shipments.push(new ShipmentModel(this.vm.Orders()));
+        this.vm.Orders([]);
     };
 }
 

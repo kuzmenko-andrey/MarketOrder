@@ -29,6 +29,7 @@ var MarketOrder = /** @class */ (function () {
     ;
     MarketOrder.prototype.createShipment = function () {
         this.vm.Shipments.push(new ShipmentModel(this.vm.Orders()));
+        this.vm.Orders([]);
     };
     ;
     return MarketOrder;
