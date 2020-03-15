@@ -3,4 +3,7 @@ C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\bin
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\bin\Debug\Database.pdb
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.dll
 C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.pdb
-C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Database.sqlprojAssemblyReference.cache
+C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\Model.xml
+C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\refactor.xml
+C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\postdeploy.sql
+C:\Users\kuzmenko\Documents\Visual Studio 2017\Projects\MarketOrder\Database\obj\Debug\predeploy.sql

@@ -1,63 +1,177 @@
-﻿@using MarketOrder.Models;
-@model List<ProductView>
-
-@{
-    ViewBag.Title = "Home Page";
+﻿﻿@{
+    ViewBag.Title = "Index";
 }
 
-@*
-    <!--
-     <div class="jumbotron">
-     -->
-    <!--
-    <div class="dropdown show">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select product
-        </a>
+@section Scripts {
+    <script>
+        var market = new MarketOrder();
+        $(document).ready(function () {
+            $("#confirmDelete").on('hide.bs.modal', function () {
+                $('.modal-backdrop').remove();
+            });
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            @foreach (var product in @Model)
-            {
-                <a class="dropdown-item" href="#">@product.Name</a>
-            }
+            $(".newshipment").on("click", function () {
+                $(".alert-success").removeClass("in").show();
+                $(".alert-success").delay(7000).addClass("in").fadeOut(2000);
+            });
+            $(".alert-success").hide();
+
+            $(".deleteproduct").on("click", function () {
+                $(".alert-danger").removeClass("in").show();
+                $(".alert-danger").delay(7000).addClass("in").fadeOut(2000);
+            });
+            $(".alert-danger").hide();
+
+            /*$(".delete").on("click", function () {
+                alert('delete');
+            });*/
+
+            //$.get('@Url.Action("List", "Home")', function (responce) {
+            //$.get('api/product', function (responce) {
+            //    market.init(responce);
+            //    ko.applyBindings(market);
+            //});
+
+            $.getJSON('api/product')
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    console.log(data);
+                    market.init(data);
+                    ko.applyBindings(market);
+                    /*$.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        debugger;
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });*/
+                });
+        });
+
+        function formatItem(item) {
+            return item.Name + ': $' + item.Price;
+        }
+    </script>
+}
+
+<div class="container-fluid">
+    <div class="alert alert-success alert-dismissable fade in">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> Order complete, shipment was created.
+    </div>
+
+    <div class="alert alert-danger alert-dismissable fade in">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Warning!</strong> Product was removed from order complete.
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title pull-left text-primary">Making an order</h1>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <label for="usr">Name:</label>
+                    <select class="form-control" data-bind="options: $root.vm.Products, optionsText: 'Name', value: $root.vm.Product().Item, optionsCaption: 'Choose...'"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-md-4">
+                    <label for="usr">Price:</label>
+                    <input type="text" class="form-control" data-bind="value: $root.vm.Product().Price">
+                </div>
+                <div class="col-6 col-md-4">
+                    <label for="usr">Discount:</label>
+                    <input type="number" class="form-control" value="" min="0.0" data-bind="value: $root.vm.Product().Discount" placeholder="Discount" step="0.01" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
+                </div>
+                <div class="col-6 col-md-4">
+                    <label for="usr">Total:</label>
+                    <input type="text" class="form-control" data-bind="value: $root.vm.Product().Total">
+                </div>
+            </div>
+            <br>
+            <button data-bind="click: market.addOrder" class="btn btn-default pull-right">Add to order</button>
+            <div class="clearfix"></div>
         </div>
     </div>
-     -->
-*@
 
-@*
-    <select>
-        @foreach (var product in @Model)
-        {
-            <option>@product.Name</option>
-        }
-    </select>
-    <input type="text" readonly="readonly" value="99.99">
-*@
-
-@*
-    <!--
-    <button type="button" class="btn btn-primary">Add</button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title pull-left">New order</h1>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-responsive table-sm" data-bind="visible: $root.vm.Orders().length > 0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Count</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: $root.vm.Orders">
+                    <tr>
+                        <td><div data-bind="text: Name" /></td>
+                        <td><div data-bind="text: Price" /></td>
+                        <td><input type="number" class="form-control" value="" min="1" data-bind="value: Count" placeholder="Count" step="1"></td>
+                        <td><div data-bind="text: Total" /></td>
+                        <td>
+                            <a href="#" class="trigger-btn text-danger" data-toggle="modal" data-target="#confirmDelete">Delete</a>
+                            <div id="confirmDelete" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title">Are you sure?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Do you really want to delete these record?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info btn-sm" data-dismiss="modal">Cancel</button>
+                                            <!--<a href="#delete"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>-->
+                                            <button type="submit" class="btn btn-danger btn-sm" data-dismiss="close" data-bind="click: market.removeOrder.bind(market);">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <button data-bind="click: market.createShipment, visible: $root.vm.Orders().length > 0" class="btn btn-primary pull-right newshipment">Create order</button>
+            <div class="clearfix"></div>
+        </div>
     </div>
-    -->
-*@
 
-@*
-    <table border="1" class="table table-bordered table-responsive">
-        <thead>
-            <tr class="btn-primary">
-                <th>Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in @Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-*@
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title pull-left">Orders approved for shipment</h1>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-sm" data-bind="visible: $root.vm.Shipments().length > 0">
+                <thead>
+                    <tr>
+                        <th><strong>Order Number</strong></th>
+                        <th><strong>Products</strong></th>
+                        <th><strong>Price</strong></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: $root.vm.Shipments">
+                    <tr>
+                        <td><div data-bind="text: $index"></div></td>
+                        <td>
+                            <div data-bind="foreach: Items">
+                                <div data-bind="text: Name" />
+                            </div>
+                        </td>
+                        <td><div data-bind="text: Total" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -13,12 +13,8 @@ export class MarketOrder {
 
     public vm: BasicViewModel;
 
-    /*vm() {
-        return this.viewmodel;
-    }*/
-
     public init(response: any) {
-        this.vm.Products.push.apply(this.vm.Products, response.products);
+        this.vm.Products.push.apply(this.vm.Products, response);
         this.vm.Product(new ProductsModel(this.vm.Products()[0]));
     };
 

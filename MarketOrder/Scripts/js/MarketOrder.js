@@ -11,11 +11,8 @@ var MarketOrder = /** @class */ (function () {
     function MarketOrder() {
         this.vm = new BasicViewModel();
     }
-    /*vm() {
-        return this.viewmodel;
-    }*/
     MarketOrder.prototype.init = function (response) {
-        this.vm.Products.push.apply(this.vm.Products, response.products);
+        this.vm.Products.push.apply(this.vm.Products, response);
         this.vm.Product(new ProductsModel(this.vm.Products()[0]));
     };
     ;
